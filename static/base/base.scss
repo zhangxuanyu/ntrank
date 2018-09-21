@@ -1,0 +1,26 @@
+$bg:#f5f6fa;
+$color:#a376d4;
+$basecolor:#333;
+$subcolor:#999;
+$border:#f0f0f0;
+$alladtop:38px;
+$tableheight:76px;
+
+
+
+@mixin headchange($width,$height){
+    width: $width;
+    height: $height;
+}
+
+@mixin bgheight{
+    height: 370px;
+    background-color: #ffffff;
+	border-radius: 5px;
+}
+
+@mixin fontwave{
+    line-height: 25px;
+    margin-bottom: 8px;
+    border: none;
+}

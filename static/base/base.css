@@ -1,0 +1,27 @@
+p{
+    padding: 0;
+    margin: 0;
+  }
+  ul,li{ padding:0;margin:0;list-style:none}
+  .cur{
+    cursor: pointer;
+  }
+  table {
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+  img,
+  abbr,
+  input,
+  button,
+  acronym,
+  fieldset,
+  textarea {
+      border: none;
+  }
+  input {
+    text-align: inherit;
+  }
+  div,p,span,ul,li,input,select{
+    box-sizing: border-box;
+  }
