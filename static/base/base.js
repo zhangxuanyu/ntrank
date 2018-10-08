@@ -37,9 +37,9 @@ class basefn{
         
     }
     //数据请求
-    fornew(url,argument){
+    fornew(methods,url,argument){
         return new Promise(function(resolve,reject){
-            axios.post(window.baseurl+url,
+            axios[methods](window.baseurl+url,
                 argument,
              {
                  headers: {'Content-Type': "application/x-www-form-urlencoded"}
@@ -87,7 +87,7 @@ class basefn{
                     // this.code = num
                     var num1 = num.replace(/(%[0-9]+)/, ' ')
                     var num2 =  num.replace(/(%[0-9]+)/, '-')
-                    return num
+                    return num1
                 }
     }
 }

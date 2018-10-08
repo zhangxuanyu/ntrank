@@ -29,8 +29,8 @@ export default {
     padding: 0 50px;
 }
 .cont{
-    min-height: 1000px;
     padding: 0 40px;
+    overflow: hidden;
     background-color:$bg;
     padding-bottom: 100px;
 }

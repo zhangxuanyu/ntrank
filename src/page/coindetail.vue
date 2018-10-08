@@ -1,32 +1,32 @@
 <template>
     <div class="cont">
-       <p class="top">{{first[0]}} > <span class="top_init">{{theid}}</span></p>
+       <p class="top"><span class="cur"  @click="gotoindex()">{{first[$store.state.lanfalg-1]}}</span> > <span class="top_init">{{theid}}</span></p>
        <div class="basecont">
            <div class="baseleftout">
                 <div class="baseleft">
                     <p class="firstp">
-                        <img src="../../static/logo1.png" alt="">
-                        <span class="name">{{theid}} <span >111111</span> </span>
+                        <img :src="basevalue.icon" alt="">
+                        <span class="name">{{basevalue.short_name}} <span >({{basevalue.name}})</span> </span>
                     </p>
                     <p class="money">
-                        $998457398
-                        <span class="updown" :style="theid>=0?{backgroundColor:'#2f9e84'}:{backgroundColor:'#d80220'}">
-                            {{theid}}%
+                        {{$store.state.currency==2?'￥'+(basevalue.price_usd*$store.state.usd_cny).toFixed(2):'$'+basevalue.price_usd.toFixed(2)}}
+                        <span class="updown" :style="parseFloat(basevalue.change_quantity)>=0?{backgroundColor:'#2f9e84'}:{backgroundColor:'#d80220'}">
+                            {{basevalue.change_quantity}}%
                         </span>
                     </p>
                     <div class="price">
-                        <p>{{basefont[0][0]}}</p>
-                        <p>234242</p>
-                        <p>{{basefont[0][0]}}</p>
-                        <p>345345345</p>
-                        <p>{{basefont[0][0]}}</p>
-                        <p>453453435</p>
+                        <p >{{basefont[0][$store.state.lanfalg-1]}}</p>
+                        <p>{{$store.state.currency==2?'￥'+addgap(basevalue.volume_usd*$store.state.usd_cny):'$'+addgap(basevalue.volume_usd)}}</p>
+                        <p>{{basefont[2][$store.state.lanfalg-1]}}</p>
+                        <p>{{addgap(basevalue.circulating_supply)}} {{basevalue.short_name}}</p>
+                        <p>{{basefont[4][$store.state.lanfalg-1]}}</p>
+                        <p>{{$store.state.currency==2?'￥'+addgap(basevalue.market_cap*$store.state.usd_cny):'$'+addgap(basevalue.market_cap)}}</p>
                     </div>
                     <div class="volue">
-                        <p>{{basefont[0][0]}}</p>
-                        <p>234242</p>
-                        <p>{{basefont[0][0]}}</p>
-                        <p>345345345</p>
+                        <p>{{basefont[1][$store.state.lanfalg-1]}}</p>
+                        <p>{{basevalue.turnover_rate}}</p>
+                        <p>{{basefont[3][$store.state.lanfalg-1]}}</p>
+                        <p>{{basevalue.flow_rate}}</p>
                     </div>
                 </div>
            </div>
@@ -37,12 +37,13 @@
        </div>
 
        <div class="selectbox">
-           <div style="overflow:hidden;">
+           <div style="overflow:hidden;height:43px;">
                 <div v-for="(item,index) in selectarr" class="thebox cur" :style="selec == index?{color:'#a376d4',backgroundColor:'#fff'}:{}" @click="change(index)">
-                    {{item[0]}}
+                    {{item[$store.state.lanfalg-1]}}
                 </div>
            </div>
-           <base-info class="infoc"></base-info>
+           <base-info  v-show="selec == 1"></base-info>
+           <the-active  v-show="selec == 0"></the-active>
        </div>
     </div>
 </template>
@@ -51,19 +52,24 @@
 import newfn from '../../static/base/base.js'
 import mChart from '../components/moostchart.vue'
 import baseInfo from '../components/coin/baseinfo.vue'
+import theActive from '../components/coin/active.vue'
 export default {
     components:{
                 mChart,
-                baseInfo
+                baseInfo,
+                theActive
             },
     data(){
         return{
-            first:['首页',''],
+            first:['首页','index'],
             base:[],
             theid:'',
             basefont:[],
+            basevalue:'',
             selectarr:[],
-            selec:3
+            selec:0,
+            //数据详情
+            
         }
     },
     created(){
@@ -71,10 +77,22 @@ export default {
         console.log(this.theid)
         this.basefont = alllanguage.coindetail.base
         this.selectarr = alllanguage.coindetail.childtype
+
+         //交易数据
+        newfn.fornew('get','/tokenrank/V2/tokenTradeDetail.json',{params:{"code": this.theid}}).then((data)=>{
+             console.log(data.data.data)
+             this.basevalue = data.data.data
+        })
     },
     methods:{
         change(a){
             this.selec = a
+        },
+        addgap(aa){
+            return newfn.conversion(aa)
+        },
+        gotoindex(){
+             this.$router.push({path:'/'});
         }
     }
 }
@@ -171,7 +189,6 @@ export default {
        }
     }
     .selectbox{
-        height: 43px;
         margin-top: 30px;
         .thebox{
             float: left;

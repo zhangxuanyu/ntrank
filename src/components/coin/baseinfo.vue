@@ -1,14 +1,14 @@
 <template>
-<div class="baseout">
+<div class="baseout" v-if="linearr.length>=1">
     <div class="cont1">
         <p class="top">
-              由中本聪在2009年提出，据其思路设计发布的开源软件以及建构其上的P2P网络。比特币依据特定算法，通过大量的计算产生，不依靠特定货币机构发行，其使用整个P2P网络中众多节点构成的分布式数据库来确认并记录所有的交易行为，并使用密码学设计确保货币流通各个环节安全性，可确保无法通过大量制造比特币来人为操控币值。基于密码学的设计可以使比特币只能被真实的拥有者转移或支付及兑现。同样确保了货币所有权与流通交易的匿名性。比特币总数有限，其总数量将被限制在2100万个。
+              {{basearr}}
         </p>
         <div class="info">
             <div class="incont">
                 <div class="modl" v-for="(item,index) in baseinfo">
                     <div class="left">
-                        <p v-for="itt in item.title">{{itt[0]}}</p>
+                        <p v-for="itt in item.title">{{itt[$store.state.lanfalg-1]}}</p>
                     </div>
                     <div class="right">
                         <p v-for="itt in item.value">{{itt}}</p>
@@ -22,36 +22,24 @@
         <div class="box">
             <div class="box_detail">
                 <p>
-                    社交媒体 
+                    {{baseblock[0][$store.state.lanfalg-1]}} 
                 </p>
-                <div class="detail_left">
-                    <div class="most_left">
-                        <p>1221</p>
-                        <p>1221</p>
-                        <p>1221</p>
-                        <p>1221</p>
-                        <p>1221</p>
+                <div class="middlecont">
+                    <div class="detail_left">
+                        <div class="most_left">
+                            <p v-for="item in media[0]">{{item[$store.state.lanfalg-1]}}</p>
+                        </div>
+                        <div  class="most_right">
+                            <p  v-for="(item,index) in media[0]"><a :href="socialarr[0][index]?socialarr[0][index]:'javascript:;'" target="_blank"><img :src="socialpic[index][0]" alt="" v-if="socialarr[0][index]"><img :src="socialpic[index][1]" alt="" v-else></a></p>
+                        </div>
                     </div>
-                    <div  class="most_right">
-                        <p><img src="../../../static/logo1.png" alt=""></p>
-                        <p><img src="../../../static/logo1.png" alt=""></p>
-                        <p><img src="../../../static/logo1.png" alt=""></p>
-                        <p><img src="../../../static/logo1.png" alt=""></p>
-                        <p><img src="../../../static/logo1.png" alt=""></p>
-                    </div>
-                </div>
-                <div class="detail_right">
-                    <div class="most_left">
-                        <p>1221</p>
-                        <p>1221</p>
-                        <p>1221</p>
-                        <p>1221</p>
-                    </div>
-                    <div  class="most_right">
-                        <p><img src="../../../static/logo1.png" alt=""></p>
-                        <p><img src="../../../static/logo1.png" alt=""></p>
-                        <p><img src="../../../static/logo1.png" alt=""></p>
-                        <p><img src="../../../static/logo1.png" alt=""></p>
+                    <div class="detail_right">
+                        <div class="most_left">
+                            <p  v-for="item in media[1]">{{item[$store.state.lanfalg-1]}}</p>
+                        </div>
+                        <div  class="most_right">
+                            <p v-for="(item,index) in media[1]"><a :href="socialarr[1][index]?socialarr[1][index]:'javascript:;'" target="_blank"><img :src="socialpic[index+5][0]" alt="" v-if="socialarr[1][index]"><img :src="socialpic[index+5][1]" alt="" v-else></a></p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -60,26 +48,25 @@
         <div class="box">
             <div class="box_detail">
                 <p>
-                    众筹信息 
+                     {{baseblock[1][$store.state.lanfalg-1]}} 
                 </p>
                 <div style="overflow:hidden;">
                     <div class="tego_left">
-                        <p>q32312</p>
-                        <p>q32312</p>
-                        <p>q32312wqeee</p>
+                        <p v-for="item in together">{{item[$store.state.lanfalg-1]}}</p>
                     </div>
                     <div class="tego_left">
-                        <p>3423123</p>
-                        <p>q32312</p>
-                        <p>q32312</p>
+                        <p v-for="(item,index) in togetherarr">{{item==''?'--':item}}</p>
                     </div>
                 </div>
                     
-                <p class="pictitle">tututu</p>
+                <p class="pictitle">{{tgchartfont[$store.state.lanfalg-1]}} <span v-show="tgfontarr.length==0" style="color:#333;">&nbsp;  --</span> </p>
                 <div class="outbasechart">
                     <div id="basechart">
                         
                     </div>
+                </div>
+                <div class="chartdata" v-show="tgfontarr.length>0">
+                    <p v-for="(item,index) in chartfont">{{item[$store.state.lanfalg-1]}}:{{tgfontarr[index]?tgfontarr[index].value?tgfontarr[index].value:'--':'--'}}</p>
                 </div>
                 
             </div>
@@ -88,11 +75,16 @@
         <div class="box">
             <div class="box_detail">
                 <p>
-                    路线图 
+                     {{baseblock[2][$store.state.lanfalg-1]}}  
                 </p>
                 <div class="showtime">
                     <div class="alltime">
-                        <div class="timecont"></div>
+                        <div class="line"></div>
+                        <div class="timecont" v-for="item in linearr" v-show="linearr[0]!=''">
+                            <p>{{item.news_time}}</p>
+                            <p>{{item.title}}</p>
+                            <div class="point"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -102,15 +94,54 @@
 </template>
 
 <script>
-import Highcharts from 'highcharts/highstock';
+import newfn from '../../../static/base/base.js'
 export default {
     data(){
         return{
-            baseinfo:''
+            baseinfo:'',
+            baseblock:'',
+            media:'',
+            together:'',
+            //基本信息
+            basearr:'',
+            //社交信息
+            socialarr:[
+                [],
+                []
+            ],
+            //众筹信息
+            togetherarr:[],
+            //路线图
+            linearr:[],
+            //众筹图片
+            tgchartfont:['代币分配','Token distribution'],
+            tgfontarr:[],
+            chartfont:[
+                ['基金会','Foundation'],
+                ['众筹','Crowdfunding'],
+                ['社区','Social'],
+                ['团队','Team'],
+                ['其他','Others']
+            ],
+            socialpic:[
+                ['../../../static/home1.png','../../../static/home2.png'],
+                ['../../../static/face1.png','../../../static/face2.png'],
+                ['../../../static/twitter1.png','../../../static/twitter2.png'],
+                ['../../../static/reddit1.png','../../../static/reddit2.png'],
+                ['../../../static/white1.png','../../../static/white2.png'],
+                ['../../../static/git1.png','../../../static/git2.png'],
+                ['../../../static/tel1.png','../../../static/tel2.png'],
+                ['../../../static/slack1.png','../../../static/slack2.png'],
+                ['../../../static/block1.png','../../../static/block2.png']
+            ]
         }
     },
     created(){
         var bbc = alllanguage.base.baseinfo
+        var code = newfn.getid()
+        this.baseblock = alllanguage.base.basetype
+        this.media = alllanguage.base.socialmed
+        this.together = alllanguage.base.together_info
         this.baseinfo=[{
             title:[bbc[0],bbc[1]],
             value:[1221,342]
@@ -121,74 +152,106 @@ export default {
             title:[bbc[4],bbc[5]],
             value:[1221,342]
         }]
+        var that = this
+        //基本信息
+        newfn.fornew('get','/tokenrank/V2/tokenInfo.json',{params:{"code": code}}).then((data)=>{
+            console.log(data)
+            // newfn.rank(1,'news_time',data.data.data.btc_news)
+            // console.log('-------------------------------')
+            // console.log(data.data.data.btc_news)
+            that.basearr = data.data.data.base_info.coin_intro
+            that.baseinfo[0].value=[data.data.data.base_info.release_amount,data.data.data.base_info.publish_time]
+            that.baseinfo[1].value=[data.data.data.base_info.stock_exchange,data.data.data.base_info.block_time]
+            that.baseinfo[2].value=[data.data.data.base_info.core_algorithm,data.data.data.base_info.developer]
+
+            setTimeout(()=>{
+                this.assignment(this.linearr,data.data.data.btc_news)
+            },3000)
+            
+            
+            this.assignment(this.socialarr[0], [data.data.data.link.website,data.data.data.link.facebook,data.data.data.link.twitter,data.data.data.link.reddit,data.data.data.link.white_paper])
+            this.assignment(this.socialarr[1], [data.data.data.link.github,data.data.data.link.telegram,'',data.data.data.link.block_station[0].url])
+            
+
+            this.togetherarr = ['',data.data.data.ico_info.crowd_funding_price,data.data.data.ico_info.funds_amount]
+            if(!data.data.data.ico_info.foundation&&!data.data.data.ico_info.crowd_funding&&!data.data.data.ico_info.community&&!data.data.data.ico_info.team&&!data.data.data.ico_info.other){
+                this.tgfontarr = []
+            }else{
+                this.tgfontarr = [
+                        {value:data.data.data.ico_info.foundation,name:'基金会'},
+                        {value:data.data.data.ico_info.crowd_funding,name:'众筹'},
+                        {value:data.data.data.ico_info.community,name:'社区'},
+                        {value:data.data.data.ico_info.team,name:'团队'},
+                        {value:data.data.data.ico_info.other,name:'其他'}
+                    ]
+            }
+
+                setTimeout(()=>{
+                    this.draw()
+                },5000)
+                
+        })
+
+        //路线图
+        // newfn.fornew('post','/tokenrank/newsList.json',{"code": code}).then(function(data){
+        //      that.linearr = data.data.info_list
+        // })
+
+       
     },
     mounted(){
-        this.draw()
+        
     },
     methods:{
         draw(){
-            var chart = Highcharts.chart('basechart', {
-                chart: {
-                    spacing : [40, 0 , 40, 0]
-                },
-                title: {
-                    floating:true,
-                    text: ''
-                },
+            var echarts = require('echarts');
+            var myChart = echarts.init(document.getElementById('basechart'));
+            var option = {
                 tooltip: {
-                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                    trigger: 'item',
+                    formatter: "{a} <br/>{b}: {c} ({d}%)"
                 },
-                plotOptions: {
-                    pie: {
-                        allowPointSelect: true,
-                        cursor: 'pointer',
-                        dataLabels: {
-                            enabled: true,
-                            format: '<b>{point.name}</b>: {point.percentage:.1f} %',
-                            style: {
-                                color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
-                            }
-                        },
-                        point: {
-                            events: {
-                                mouseOver: function(e) {  // 鼠标滑过时动态更新标题
-                                    // 标题更新函数，API 地址：https://api.hcharts.cn/highcharts#Chart.setTitle
-                                    chart.setTitle({
-                                        text: e.target.name+ '\t'+ e.target.y + ' %'
-                                    });
+                
+                series: [
+                    {
+                        name:'访问来源',
+                        type:'pie',
+                        radius: ['50%', '70%'],
+                        avoidLabelOverlap: false,
+                        label: {
+                            normal: {
+                                show: false,
+                                position: 'center'
+                            },
+                            emphasis: {
+                                show: true,
+                                textStyle: {
+                                    fontSize: '30',
+                                    fontWeight: 'bold'
                                 }
                             }
                         },
-                    }
-                },
-                series: [{
-                    type: 'pie',
-                    innerSize: '80%',
-                    name: '市场份额',
-                    data: [
-                        {name:'Firefox',   y: 45.0, url : 'http://bbs.hcharts.cn'},
-                        ['IE',       26.8],
-                        {
-                            name: 'Chrome',
-                            y: 12.8,
-                            sliced: true,
-                            selected: true,
-                            url: 'http://www.hcharts.cn'
+                        labelLine: {
+                            normal: {
+                                show: false
+                            }
                         },
-                        ['Safari',    8.5],
-                        ['Opera',     6.2],
-                        ['其他',   0.7]
-                    ]
-                }]
-            }, function(c) { // 图表初始化完毕后的会掉函数
-                // 环形图圆心
-                var centerY = c.series[0].center[1],
-                    titleHeight = parseInt(c.title.styles.fontSize);
-                // 动态设置标题位置
-                c.setTitle({
-                    y:centerY + titleHeight/2
-                });
-            });
+                        data:this.tgfontarr
+                    }
+                ]
+            };
+            myChart.setOption(option)
+        },
+        //赋值方法
+        assignment(arr,argument){
+            for(let i = 0;i<=argument.length - 1;i++){
+                if(argument[i]){
+                    arr.push(argument[i])
+                }else{
+                    arr.push('')
+                }
+            }
+            
         }
     }
 }
@@ -228,7 +291,7 @@ export default {
                     .right{
                         float: left;
                         color: #666;
-                        margin-top: 2px;
+                        // margin-top: 2px;
                         p:nth-of-type(2){
                             margin-top: 22px;
                         }
@@ -259,11 +322,14 @@ export default {
                     padding-bottom: 17px;
                     margin-bottom: 13px;
                 }
+                .middlecont{
+                    display: flex;
+                    justify-content:space-around;
+                }
                 .detail_left{
                     float: left;
                     min-width: 120px;
                     overflow: hidden;
-                    
                     .most_left{
                         float: left;
                         margin-top: 4px;
@@ -277,6 +343,7 @@ export default {
                         float: right;
                         p{
                             border: none;
+                            margin-top: 5px;
                             margin-bottom: 2px;
                             font-size: 14px;
                             img{
@@ -303,6 +370,7 @@ export default {
                         p{
                             border: none;
                             font-size: 14px;
+                            margin-top: 4px;
                             margin-bottom: 2px;
                             img{
                                 width: 25px;
@@ -334,12 +402,24 @@ export default {
                     height: 170px;
                     bottom: 20px;
                     left: 80px;
-                    overflow: hidden;
+                    
                     #basechart{
-                        width: 400px;
-                        height: 250px;
-                        margin-top: -70px;
-                        margin-left: -80px;
+                        width: 350px;
+                        height: 200px;
+                        margin-top: -20px;
+                    }
+                }
+                .chartdata{
+                    position: absolute;
+                    bottom:20px;
+                    left: 80px;
+                    width: 100px;
+                    p{
+                        padding: 0;
+                        margin: 0;
+                        line-height: 24px;
+                        border:  0;
+                        font-size: 12px;
                     }
                 }
                 .showtime{
@@ -348,13 +428,44 @@ export default {
                     overflow: scroll;
                     .alltime{
                         width: 100%;
-                        height: 1000px;
-                        padding-left: 10px;
-                        border-image: url('../../../static/dashed.png') 30 1 round;
+                        position: relative;
+                        padding-left: 15px;
+                        .line{
+                            position: absolute;
+                            width: 4px;
+                            height: 100%;
+                            top: 0px;
+                            left: 7px;
+                            background-image: url(../../../static/dashed.png);
+                        }
                         .timecont{
                             width: 100%;
-                            height: 100px;
-                            
+                            position: relative;
+                            padding-left: 33px;
+                            padding-bottom: 40px;
+                            p{
+                                text-align: left;
+                                font-size: 14px;
+                                border: 0;
+                                padding: 0;
+                                margin: 0;
+                            }
+                            p:nth-of-type(1){
+                                color: $subcolor;
+                                margin-bottom: 10px;
+                            }
+                            p:nth-of-type(2){
+                                color: $basecolor;
+                            }
+                            .point{
+                                position: absolute;
+                                width: 11px;
+                                height: 11px;
+                                top: 2px;
+                                left: -11px;
+                                border-radius: 50%;
+                                background-color: $color;
+                            }
                         }
                     }
                 }

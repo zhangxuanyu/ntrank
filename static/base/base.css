@@ -17,11 +17,11 @@ p{
   acronym,
   fieldset,
   textarea {
-      border: none;
+    border: none;
   }
   input {
     text-align: inherit;
   }
-  div,p,span,ul,li,input,select{
+  div,p,span,ul,li,input,select,th{
     box-sizing: border-box;
   }

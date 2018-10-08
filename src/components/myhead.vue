@@ -1,7 +1,7 @@
 <template>
   <div class="top">
       <div class="mdl">
-            <div class="top_left cur">
+            <div class="top_left cur" @click="gotodetail()">
                 <img src="../../static/TokenRank.png">
             </div>
 
@@ -20,7 +20,7 @@
 
             <div class="alltype">
                 <div v-for="(item,index) in headluaguage" class="type cur" @click="gotoother(index)" :style="index == black?{fontWeight:600,color:'#a376d4',borderBottom:'4px solid #a376d4'}:''">
-                    {{item[0]}}
+                    {{item[$store.state.lanfalg-1]}}
                 </div>
             </div>
             
@@ -45,11 +45,25 @@ computed: {
         
     },
     watch:{
-       
+       language(n,o){
+           if(n == 0){
+               this.$store.commit('changecur',2)
+           }else{
+               this.$store.commit('changecur',1)
+           }
+           this.$store.commit('changelang',parseInt(n)+1)
+           
+           console.log(this.$store.state.lanfalg)
+       }
     },
 created(){
     this.headluaguage = alllanguage.head
     this.options = alllanguage.head_options
+    if(this.$route.path == '/'||this.$route.path == '/coindetail'){
+        this.black = 0
+    }else{
+        this.black = 1
+    }
 },
 
   methods:{
@@ -61,7 +75,8 @@ created(){
             })
         }else if(aa == 1){
             this.$router.push({
-                path: '/data'
+                // path: '/data'
+                path: '/exchange'
             })
         }else if(aa == 2){
             this.$router.push({
@@ -75,7 +90,10 @@ created(){
     },
     changeSelection(){
         console.log(this.language)
-    }
+    },
+    gotodetail(){
+            this.$router.push({path:'/'});
+        },
   }
   
 }

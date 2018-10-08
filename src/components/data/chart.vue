@@ -1,9 +1,12 @@
 <template>
     <div class="rank_box">
         <p class="alltitle">
-            <span class="title_tips">{{top_title[showType].title[0]}}</span>          
+            <span class="title_tips">{{top_title[showType].title[$store.state.lanfalg-1]}}</span>          
         </p>
-        <div id="mychart"></div>
+        <!-- <div :id="'mychart'+showType" class="formychart"></div> -->
+        <div class="formychart">
+            {{content_chart[$store.state.lanfalg-1]}}
+        </div>
     </div>
 </template>
 
@@ -13,14 +16,15 @@ import Highcharts from 'highcharts/highstock';
 export default {
     data(){
         return{
+            content_chart:['榜单待开放中...','COMING SOON...'],
             top_title:[{
-                title:['活跃地址数','']
+                title:['活跃地址数','Active Address']
             },{
                 title:['交易量(24H)','']
             }],
             titlearr:[
-                [['排名',''],['名称',''],['价格',''],[['涨幅',''],['跌幅','']]],
-                [['排名',''],['名称',''],['交易量','']]
+                [['排名','rank'],['名称','name'],['价格','price'],[['涨幅','increase'],['跌幅','reduce']]],
+                [['排名','rank'],['名称','name'],['交易量','volume']]
             ],
             arr:[11111,'namedd','5413165131'],
             subarr:[],
@@ -255,7 +259,7 @@ export default {
     props: ['showType'],
     created(){
             console.log(this.showType)
-            this.request(this.requestarr[this.showType],this.requestdata[this.showType])
+            // this.request(this.requestarr[this.showType],this.requestdata[this.showType])
     },
     methods:{
         change_select(aa){
@@ -265,7 +269,7 @@ export default {
         // 请求函数，并处理数据
         request(url,argument){
             var that = this
-            newfn.fornew(url,argument).then(function(data){
+            newfn.fornew('post',url,argument).then(function(data){
                console.log(data)
             //    根据传入的props判断类型
                if(that.showType==0){
@@ -282,8 +286,9 @@ export default {
 
         // 画图函数
         draw(obj){
+            var theid = 'mychart'+ this.showType
             var options1=obj
-                window.chartsss = Highcharts.chart('mychart',options1)
+                window.chartsss = Highcharts.chart(theid,options1)
                 
 	        	    window.onresize = function () {
                         // chart.reflow();
@@ -325,9 +330,10 @@ export default {
         }
         
     }
-    #mychart{
+    .formychart{
         width: 100%;
         height: 300px;
+        line-height: 300px;
     }
     
 }
