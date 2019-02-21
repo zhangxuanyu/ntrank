@@ -13,7 +13,7 @@
           </div> -->
       <!-- </div> -->
       <div class="copyright">
-          Copyright © 2018-2028 TokenRank.net
+          Copyright © 2018 TokenRank.net
       </div>
       
   </div>
@@ -38,8 +38,10 @@ export default {
 <style scoped>
 .footout{
     width: 100%;
-    background-color: #fff;
+    background-color: #f5f6fa;
     text-align: center;
+    color: #999;
+    
 }
 .footcontent{
     width: 1000px;
@@ -55,7 +57,7 @@ export default {
     float: right;
 }
 .copyright{
-    font-size: 14px;
+    font-size: 12px;
     width: 1000px;
     height: 100px;
     line-height: 100px;

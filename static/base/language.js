@@ -1,8 +1,9 @@
 var alllanguage={
     head:[
-        ['币种','coin'],
-        // ['数据分析','data'],
-        ['交易所','exchange']
+        ['币种','Coin'],
+        // ['分析','Data'],
+        ['交易所','Exchange'],
+        ['趋势','Tendency']
     ],
      //语言选择
     head_options: [{
@@ -14,11 +15,11 @@ var alllanguage={
     }],
     coindetail:{
         base:[
-            ['交易量（24H）','Volume(24H)'],
-            ['换手率（24h）','Turnover Rate（24h）'],
+            ['交易量(24H)','Volume(24H)'],
+            ['换手率(24H)','Turnover Rate(24H)'],
             ['流通供给量','Circulating Supply'],
             ['流通率','Flow rate'],
-            ['市值','Market Cap']
+            ['流通市值', 'Market Cap']
         ],
         basechart:[
             ['价格','Price'],
@@ -30,9 +31,10 @@ var alllanguage={
         childtype:[
             // ['富豪榜','TopAccount'],
             // ['大额异动','LargeTxs'],
-            ['活跃度','liveness'],
+            ['活跃度','Liveness'],
             ['基本信息','Basic Information']
-        ]
+        ],
+        s_media: ['社交媒体', 'Social Media']
     },
     base:{
         baseinfo:[
@@ -60,7 +62,7 @@ var alllanguage={
                 ['GitHub','GitHub'],
                 ['Telegram','Telegram'],
                 ['Slack','Slack'],
-                ['区块站','Explorer'],
+                ['浏览器', 'Explorer'],
             ]
         ],
         together_info:[

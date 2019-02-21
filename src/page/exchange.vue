@@ -8,7 +8,7 @@
       <!-- <pc-loading v-show="$store.state.loadshow"></pc-loading> -->
       <div class="content"  v-show="!$store.state.loadshow">
          
-          <div class="content_top"  v-if="$store.state.lanfalg == 1"> 
+          <div class="content_top"  v-if="lanfalg == 0"> 
                    
           </div>
           <div class="content_top"  v-else>
@@ -17,12 +17,12 @@
           <!-- <div class="top_tips">Top 10</div> -->
           <div class="content_middle">
               <!-- 中文表头 -->
-              <div class="title" v-if="$store.state.lanfalg == 1||$store.state.lanfalg == 3||$store.state.lanfalg == 5">
+              <div class="title" v-if="lanfalg == 0||lanfalg == 2||lanfalg == 4">
                   <ul>
                       <li class="first">#</li>
-                      <li class="second">{{fontarr.name[$store.state.lanfalg - 1]}}</li>
+                      <li class="second">{{fontarr.name[lanfalg]}}</li>
                       <li class="bk_one"></li>
-                      <li class="read"  @click="allTrade" :style="allTradeb"  v-if="$store.state.lanfalg == 1">
+                      <li class="read"  @click="allTrade" :style="allTradeb"  v-if="lanfalg == 0">
                     
                       24H总交易量 <img :src="allTradee" alt="" :style="allTradei">
                       <!-- <div class="tips price">
@@ -41,28 +41,28 @@
                       </div> -->
                       </li>
                       <li class="bk_two"></li>
-                      <li class="marks">{{fontarr.pair[$store.state.lanfalg - 1]}}
+                      <li class="marks">{{fontarr.pair[lanfalg]}}
                         <!-- <div class="tips mark">
                           <img src="../../../static/black-block.png" alt="">
                           由总供给量乘以价格得出
                       </div> -->
                       </li>
                       <li class="bk_thr"></li>
-                      <li class="rread"> {{fontarr.price[$store.state.lanfalg - 1]}}
+                      <li class="rread"> {{fontarr.price[lanfalg]}}
                         <!-- <div class="tips volum">
                           <img src="../../../static/black-block.png" alt="">
                           近24小时的总交易量
                         </div> -->
                       </li>
                       <li class="bk_fr"></li>
-                      <li class="tfh">{{fontarr.v_d[$store.state.lanfalg - 1]}}
+                      <li class="tfh">{{fontarr.v_d[lanfalg]}}
                         <!-- <div class="tips volum">
                           <img src="../../../static/black-block.png" alt="">
                          近24小时的价格跌涨情况
                         </div> -->
                       </li>
                       
-                      <li class="tsee"><div class="boxw" v-if="$store.state.lanfalg == 1">链接</div><div class="boxw" v-else>Link</div>
+                      <li class="tsee"><div class="boxw" v-if="lanfalg == 0">链接</div><div class="boxw" v-else>Link</div>
                         <!-- <div class="tips">
                           <img src="../../../static/black-block.png" alt="">
                           该币种的公共开发源代码库及GitHub社区活跃度概况，采集了Commits, Stars,Watchers等多个参数。
@@ -71,11 +71,11 @@
                     
                   </ul>
               </div>
-              <div class="title entitle"  v-if="$store.state.lanfalg == 2 ||$store.state.lanfalg == 6">
+              <div class="title entitle"  v-if="lanfalg == 1 ||lanfalg == 5">
                   <!-- 英文表头 -->
                   <ul>
                       <li class="first">#</li>
-                      <li class="second">{{fontarr.name[$store.state.lanfalg - 1]}}</li>
+                      <li class="second">{{fontarr.name[lanfalg]}}</li>
                       <li class="bk_one"></li>
                       <li class="enread"   @click="allTrade"  :style="allTradeb">24H Total volume <img :src="allTradee" alt="" :style="allTradei">
                       <!-- <div class="tips price">
@@ -85,21 +85,21 @@
                       </div> -->
                       </li>
                       <li class="bk_two"></li>
-                      <li class="enmark">{{fontarr.pair[$store.state.lanfalg - 1]}}
+                      <li class="enmark">{{fontarr.pair[lanfalg]}}
                         <!-- <div class="tips mark">
                           <img src="../../../static/black-block.png" alt="">
                           Total supply * price
                       </div> -->
                       </li>
                       <li class="bk_thr"></li>
-                      <li class="enrread">{{fontarr.price[$store.state.lanfalg - 1]}}
+                      <li class="enrread">{{fontarr.price[lanfalg]}}
                         <!-- <div class="tips volum">
                           <img src="../../../static/black-block.png" alt="">
                           The total transaction value over the last 24h
                         </div> -->
                       </li>
                       <li class="bk_fr"></li>
-                      <li class="entfh">{{fontarr.v_d[$store.state.lanfalg - 1]}} 
+                      <li class="entfh">{{fontarr.v_d[lanfalg]}} 
                         <!-- <div class="tips volum">
                           <img src="../../../static/black-block.png" alt="">
                           Price change over the last 24h
@@ -116,10 +116,10 @@
                   </ul>
               </div>
             <!-- 其他语言表头 -->
-              <div class="title entitle"  v-if="$store.state.lanfalg == 4">
+              <div class="title entitle"  v-if="lanfalg == 4">
                   <ul>
                       <li class="first">#</li>
-                      <li class="second lgcg">{{fontarr.name[$store.state.lanfalg - 1]}}</li>
+                      <li class="second lgcg">{{fontarr.name[lanfalg]}}</li>
                       <li class="bk_one"></li>
                       <li class="enread lgcg butlg"   @click="allTrade"  :style="allTradeb">24H Total volume <img :src="allTradee" alt="" :style="allTradei">
                       <!-- <div class="tips price">
@@ -129,21 +129,21 @@
                       </div> -->
                       </li>
                       <li class="bk_two"></li>
-                      <li class="enmark lgcg">{{fontarr.pair[$store.state.lanfalg - 1]}}
+                      <li class="enmark lgcg">{{fontarr.pair[lanfalg]}}
                         <!-- <div class="tips mark">
                           <img src="../../../static/black-block.png" alt="">
                           Total supply * price
                       </div> -->
                       </li>
                       <li class="bk_thr"></li>
-                      <li class="enrread lgcg">{{fontarr.price[$store.state.lanfalg - 1]}}
+                      <li class="enrread lgcg">{{fontarr.price[lanfalg]}}
                         <!-- <div class="tips volum">
                           <img src="../../../static/black-block.png" alt="">
                           The total transaction value over the last 24h
                         </div> -->
                       </li>
                       <li class="bk_fr"></li>
-                      <li class="entfh lgcg">{{fontarr.v_d[$store.state.lanfalg - 1]}} 
+                      <li class="entfh lgcg">{{fontarr.v_d[lanfalg]}} 
                         <!-- <div class="tips volum">
                           <img src="../../../static/black-block.png" alt="">
                           Price change over the last 24h
@@ -159,31 +159,25 @@
                       
                   </ul>
               </div>
-              <div class="data" v-for="(item,index) in arr">
-                      <ul   v-if="$store.state.currency == 2 && index<=100">
+              <div class="data" v-for="(item,index) in arr" :key="index">
+                      <ul>
                           <!-- 中文数据 -->
                       <li class="first">{{index + 1 + (thepage - 1)*thepage_size}}</li>
                       <li @click="gotodetail(item.exchange_name)"  class="sec_first"> <img :src="item.exchange_icon" alt=""  class="pic"> </li>
                       <li @click="gotodetail(item.exchange_name)"  class="sec_sec"><p>{{item.exchange_name}}</p><span style="-webkit-box-orient: vertical">{{item.country}}</span> </li>
                       <!-- <li class="bk_one"></li> -->
-                      <li class="rg"><p>￥{{item.total_volume_24h_zh}}</p> </li>
+                      <li class="rg"><p>{{item.total_volume_24h_zh}}</p> </li>
                       <li class="bk_two"></li>
                       <li class="prs">
-                          <p><span>{{item.pair_new[0]}}</span>/{{item.pair_new[1]}}</p>
-                          <p><span>{{item.pair_new[2]}}</span>/{{item.pair_new[3]}}</p>
-                          <p><span>{{item.pair_new[4]}}</span>/{{item.pair_new[5]}}</p>                    
+                          <p  v-for="index in 3" :key="index"><span>{{item.pair_new[2*(index-1)]}}</span>/{{item.pair_new[2*index-1]}}</p>
                       </li> 
                        <li class="bk_thr"></li>
                       <li class="rh">
-                          <p>￥{{item.price_list_zh[0]}}</p>
-                          <p>￥{{item.price_list_zh[1]}}</p>
-                          <p>￥{{item.price_list_zh[2]}}</p> 
+                          <p v-for="index in 3" :key="index">{{money_sym[lanfalg]+item.price_list_zh[index]}}</p>
                       </li>
                       <li class="bk_fr"></li>
                       <li class="tg">
-                           <p>￥{{item.volume_24h_list_zh[0]}}</p>
-                           <p>￥{{item.volume_24h_list_zh[1]}}</p>
-                           <p>￥{{item.volume_24h_list_zh[2]}}</p>
+                           <p v-for="index in 3" :key="index">{{money_sym[lanfalg]+item.volume_24h_list_zh[index]}}</p>
                           </li>
                           <!-- 内容 -->
                       <li class="gitscore">
@@ -197,40 +191,7 @@
                       <!-- <li class="gitscore">{{item.github_score}}</li> -->
                       
                      
-                  </ul>
-                  <ul  v-if="$store.state.currency == 1 && index<=100">
-                      <!-- 英文数据 -->
-                      <li class="first">{{index + 1}}</li>
-                      <li @click="gotodetail(item.exchange_name)"  class="sec_first"><img :src="item.exchange_icon" alt="" class="pic"></li>
-                      <li @click="gotodetail(item.exchange_name)"  class="sec_sec"><p>{{item.exchange_name}}</p><span style="-webkit-box-orient: vertical">{{item.country}}</span> </li>
-                      <li class="enrg"><p>${{item.total_volume_24h}}</p></li>
-                      <li class="bk_two"></li>
-                      <li class="enprs">
-                           <p><span>{{item.pair_new[0]}}</span>/{{item.pair_new[1]}}</p>
-                          <p><span>{{item.pair_new[2]}}</span>/{{item.pair_new[3]}}</p>
-                          <p><span>{{item.pair_new[4]}}</span>/{{item.pair_new[5]}}</p>      
-                      </li> 
-                       <li class="bk_thr"></li>
-                      <li class="enrh">
-                         <p>${{item.price_list[0]}}</p>
-                          <p>${{item.price_list[1]}}</p>
-                          <p>${{item.price_list[2]}}</p> 
-                      </li>
-                      <li class="bk_fr"></li>
-                      <li class="entg">
-                           <p>${{item.volume_24h_list[0]}}</p>
-                           <p>${{item.volume_24h_list[1]}}</p>
-                           <p>${{item.volume_24h_list[2]}}</p>
-                          </li>
-                     <li class="gitscore">
-                          <div @click="gotohome(item.link_info.homepage)"></div>
-                          <div @click="gototwitter(item.link_info.twitter_url)"></div>
-                          <div @click="gotoface(item.link_info.facebook_url)"></div>
-                    </li>
-                      <!-- <li class="gitscore">{{item.github_score}}</li> -->
-                      
-                     
-                  </ul>                 
+                  </ul>              
               </div>
           </div>
       </div>
@@ -244,6 +205,7 @@
 
 <script>
 import axios from 'axios';
+import {mapState} from 'Vuex'
 // import pcLoading from './components/loading'
 export default {
     components:{
@@ -377,16 +339,11 @@ export default {
 	}],
       }
   },
-  props:{
-      lanfalg:true
-  },
-  computed:{
-
-  },
+  computed:mapState(['usd_cny','lanfalg','money_sym']),
 //   beforecreated
   created(){
       this.$store.state.topshow = 2
-      console.log(this.$store.topshow)
+      console.log(this.$store.state.lanfalg)
     axios.post(this.$store.state.requrl+'/exchange/exchangeList.json',{},{
             headers: {'Content-Type': "application/x-www-form-urlencoded"}
         }).then(response => {
@@ -1040,10 +997,6 @@ export default {
     line-height: 22px;
     padding-top: 13px;
 }
-.data .tg p{
-    
-}
-
 .data .enprs{
     width: 100px;
     text-align: left;
@@ -1591,10 +1544,6 @@ export default {
     line-height: 22px;
     padding-top: 13px;
 }
-.data .tg p{
-   
-}
-
 .data .enprs{
    width: 100px;
     text-align: left;

@@ -25,3 +25,15 @@ p{
   div,p,span,ul,li,input,select,th{
     box-sizing: border-box;
   }
+  .clearfix:after {
+    content: ".";
+    clear: both;
+    display: block;
+    height: 0;
+    overflow: hidden;
+    visibility: hidden;
+  }
+
+  .clearfix {
+    zoom: 1;
+  }

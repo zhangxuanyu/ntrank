@@ -5,9 +5,8 @@
                 <img src="../../static/TokenRank.png">
             </div>
 
-            <img :src="imgbox[language]||imgbox[0]" alt="" class="thepic cur" >
-            <el-select v-model="language" placeholder="简体中文" @change="changeSelection" ref="select"  class="top_right cur" >
-                
+            <img :src="imgbox[language]||imgbox[$store.state.lanfalg]" alt="" class="thepic cur" >
+            <el-select v-model="language" placeholder="English" @change="changeSelection" ref="select"  class="top_right cur" >                
                 <el-option
                     v-for="(item,index) in options"
                     :key="item.value"
@@ -19,8 +18,8 @@
             
 
             <div class="alltype">
-                <div v-for="(item,index) in headluaguage" class="type cur" @click="gotoother(index)" :style="index == black?{fontWeight:600,color:'#a376d4',borderBottom:'4px solid #a376d4'}:''">
-                    {{item[$store.state.lanfalg-1]}}
+                <div v-for="(item,index) in headluaguage" :key="index" class="type cur" @click="gotoother(index)" :style="index == black?{fontWeight:600,color:'#a376d4',borderBottom:'4px solid #a376d4'}:''">
+                    {{item[$store.state.lanfalg]}}
                 </div>
             </div>
             
@@ -30,6 +29,7 @@
 
 <script>
 import newfn from '../../static/base/base.js'
+import {mapState} from 'Vuex';
 export default {
   data(){
       return{
@@ -37,7 +37,7 @@ export default {
         //   显示变黑
         black:0,
         //语言
-        language:'简体中文',
+        language:'English',
         imgbox:['../../static/icon-cn.png','../../static/icon-en.png']
       }
   },
@@ -46,43 +46,65 @@ computed: {
     },
     watch:{
        language(n,o){
-           if(n == 0){
-               this.$store.commit('changecur',2)
+           this.$store.commit('changelang',n)
+       },
+       '$route'(to,from){
+           let path = to.name;
+           if(path.indexOf('coin') > -1){
+                this.black = 0
+           }else if(path.indexOf('data') > -1){
+                this.black = 1
+           }else if(path.indexOf('exchange') > -1){
+               this.black = 1
            }else{
-               this.$store.commit('changecur',1)
+               this.black = 2
            }
-           this.$store.commit('changelang',parseInt(n)+1)
-           
-           console.log(this.$store.state.lanfalg)
        }
     },
 created(){
     this.headluaguage = alllanguage.head
-    this.options = alllanguage.head_options
-    if(this.$route.path == '/'||this.$route.path == '/coindetail'){
+    this.options = alllanguage.head_options;
+    console.log(this.$route)
+     let path = this.$route.name;
+    if(path.indexOf('coin') > -1){
         this.black = 0
-    }else{
+    }else if(path.indexOf('data') > -1){
         this.black = 1
+    }else if(path.indexOf('exchange') > -1){
+        this.black = 1
+    }else{
+        this.black = 2
     }
 },
 
   methods:{
     gotoother(aa){
-        this.black = aa
-        if(aa == 0){
-            this.$router.push({
-                path: '/'
-            })
-        }else if(aa == 1){
-            this.$router.push({
-                // path: '/data'
-                path: '/exchange'
-            })
-        }else if(aa == 2){
-            this.$router.push({
-                path: '/exchange'
-            })
+     
+        this.black = aa;
+        switch(aa){
+            case 0:
+                this.$router.push({
+                    path: '/'
+                })
+                break;
+            case 1:
+                this.$router.push({
+                    path: '/exchange'
+                })
+                break;
+            // case 2:
+            //     break;
+            default:
+                this.$router.push({
+                    path: '/trend'
+                })
         }
+        // else if(aa == 1){
+        //     this.$router.push({
+        //         path: '/data'
+               
+        //     })
+        // }
         
     },
     nnf(aa){
@@ -92,9 +114,9 @@ created(){
         console.log(this.language)
     },
     gotodetail(){
-            this.$router.push({path:'/'});
-        },
-  }
+        this.$router.push({path:'/'});
+    },
+  },
   
 }
 </script>
@@ -105,15 +127,24 @@ created(){
     margin-top: 10px;
     width: 121px;
     background-color: rgba(0,0,0,0);
+    opacity: 0;
+}
+.el-select-dropdown{
+    top: 38px !important;
+    border-radius: 5px !important;
 }
 .mdl .el-select-dropdown__list{
     background-color: #f5f6fa;
+    
 }
 .mdl .el-icon-arrow-up:before{
     content:'';
 }
 .mdl .el-select .el-input .el-select__caret{
     color: #fff;
+}
+.el-select-dropdown  .popper__arrow{
+    left: 100px !important;
 }
 </style>
 
@@ -131,7 +162,7 @@ created(){
         position: relative;
         .thepic{
             position: absolute;
-            top: 17px;
+            top: calc((60px - 25px) / 2);
             right: 0px;
             width: 25px;
             

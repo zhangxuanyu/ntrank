@@ -25,8 +25,8 @@
             </div>
              <div class="extrade">
                     
-                    <p v-if="$store.state.lanfalg == 1">24H总交易量</p>
-                    <p v-else-if="$store.state.lanfalg == 3">24H總交易量</p>
+                    <p v-if="$store.state.lanfalg == 0">24H总交易量</p>
+                    <p v-else-if="$store.state.lanfalg == 2">24H總交易量</p>
                     <p v-else>24H Total Volume</p>
                     <span v-if="$store.state.currency ==1">${{outarr.total_volume_24h}}</span>
                      <span v-if="$store.state.currency ==2">￥{{outarr.total_volume_24h_zh}}</span>
@@ -44,7 +44,7 @@
           </div>
         </div>
         <!-- 中间货币详情 -->
-         <div class="exmdl" v-if="$store.state.lanfalg == 1">
+         <div class="exmdl" v-if="$store.state.lanfalg == 0">
               <div class="mdl_top">
                   服务费说明
               </div>
@@ -108,14 +108,14 @@
           <!-- 底部表格 -->
           <div class="bt_table">
               <!-- //中文表头 -->
-              <div class="title" v-if="$store.state.lanfalg == 1||$store.state.lanfalg == 3||$store.state.lanfalg == 5">
+              <div class="title" v-if="$store.state.lanfalg == 0||$store.state.lanfalg == 2||$store.state.lanfalg == 4">
                   <ul>
                       <li class="first">#</li>
-                      <li class="second">{{fontarr.pair[$store.state.lanfalg -1]}}</li>
+                      <li class="second">{{fontarr.pair[$store.state.lanfalg]}}</li>
                       <li class="bk_one"></li>
                       <li class="read"  @click="pris" :style="prisb">
                     
-                      {{fontarr.price[$store.state.lanfalg -1]}} <img :src="prise" alt="" :style="prisi">
+                      {{fontarr.price[$store.state.lanfalg]}} <img :src="prise" alt="" :style="prisi">
                       <!-- <div class="tips price">
                           <img src="../../../static/black-block.png" alt="">
                           交易
@@ -123,14 +123,14 @@
                       </div> -->
                       </li>
                       <li class="bk_two"></li>
-                      <li class="marks" @click="hvlo" :style="hvlob">{{fontarr.v_d[$store.state.lanfalg -1]}} <img :src="hvloe" alt="" :style="hvloi">
+                      <li class="marks" @click="hvlo" :style="hvlob">{{fontarr.v_d[$store.state.lanfalg]}} <img :src="hvloe" alt="" :style="hvloi">
                         <!-- <div class="tips mark">
                           <img src="../../../static/black-block.png" alt="">
                           由总供给量乘以价格得出
                       </div> -->
                       </li>
                       <li class="bk_thr"></li>
-                      <li class="rread" @click="vlop" :style="vlopb"> {{fontarr.tz[$store.state.lanfalg -1]}} <img :src="vlope" alt="" :style="vlopi">
+                      <li class="rread" @click="vlop" :style="vlopb"> {{fontarr.tz[$store.state.lanfalg]}} <img :src="vlope" alt="" :style="vlopi">
                         <!-- <div class="tips volum">
                           <img src="../../../static/black-block.png" alt="">
                           近24小时的总交易量
@@ -141,13 +141,13 @@
                     
                   </ul>
               </div>
-              <div class="title entitle"  v-if="$store.state.lanfalg == 2||$store.state.lanfalg == 6">
+              <div class="title entitle"  v-if="$store.state.lanfalg == 1||$store.state.lanfalg == 5">
                   <!-- 英文表头 -->
                   <ul>
                       <li class="first">#</li>
-                      <li class="second">{{fontarr.pair[$store.state.lanfalg -1]}}</li>
+                      <li class="second">{{fontarr.pair[$store.state.lanfalg]}}</li>
                       <li class="bk_one"></li>
-                      <li class="enread"   @click="pris"  :style="prisb">{{fontarr.price[$store.state.lanfalg -1]}} <img :src="prise" alt="" :style="prisi">
+                      <li class="enread"   @click="pris"  :style="prisb">{{fontarr.price[$store.state.lanfalg]}} <img :src="prise" alt="" :style="prisi">
                       <!-- <div class="tips price">
                           <img src="../../../static/black-block.png" alt="">
                           Current price
@@ -155,14 +155,14 @@
                       </div> -->
                       </li>
                       <li class="bk_two"></li>
-                      <li class="enmark">{{fontarr.v_d[$store.state.lanfalg -1]}} <img :src="prise" alt="" :style="prisi">
+                      <li class="enmark">{{fontarr.v_d[$store.state.lanfalg]}} <img :src="prise" alt="" :style="prisi">
                         <!-- <div class="tips mark">
                           <img src="../../../static/black-block.png" alt="">
                           Total supply * price
                       </div> -->
                       </li>
                       <li class="bk_thr"></li>
-                      <li class="enrread">{{fontarr.tz[$store.state.lanfalg -1]}} <img :src="prise" alt="" :style="prisi">
+                      <li class="enrread">{{fontarr.tz[$store.state.lanfalg]}} <img :src="prise" alt="" :style="prisi">
                         <!-- <div class="tips volum">
                           <img src="../../../static/black-block.png" alt="">
                           The total transaction value over the last 24h
@@ -174,12 +174,12 @@
                   </ul>
               </div>
               <!-- 其他语言表头 -->
-              <div class="title entitle"  v-if="$store.state.lanfalg == 4">
+              <div class="title entitle"  v-if="$store.state.lanfalg == 3">
                   <ul>
                       <li class="first">#</li>
-                      <li class="second lgcg">{{fontarr.pair[$store.state.lanfalg -1]}}</li>
+                      <li class="second lgcg">{{fontarr.pair[$store.state.lanfalg]}}</li>
                       <li class="bk_one"></li>
-                      <li class="enread lgcg"   @click="pris"  :style="prisb">{{fontarr.price[$store.state.lanfalg -1]}} <img :src="prise" alt="" :style="prisi">
+                      <li class="enread lgcg"   @click="pris"  :style="prisb">{{fontarr.price[$store.state.lanfalg]}} <img :src="prise" alt="" :style="prisi">
                       <!-- <div class="tips price">
                           <img src="../../../static/black-block.png" alt="">
                           Current price
@@ -187,14 +187,14 @@
                       </div> -->
                       </li>
                       <li class="bk_two"></li>
-                      <li class="enmark lgcg">{{fontarr.v_d[$store.state.lanfalg -1]}} <img :src="prise" alt="" :style="prisi">
+                      <li class="enmark lgcg">{{fontarr.v_d[$store.state.lanfalg]}} <img :src="prise" alt="" :style="prisi">
                         <!-- <div class="tips mark">
                           <img src="../../../static/black-block.png" alt="">
                           Total supply * price
                       </div> -->
                       </li>
                       <li class="bk_thr"></li>
-                      <li class="enrread lgcg">{{fontarr.tz[$store.state.lanfalg -1]}} <img :src="prise" alt="" :style="prisi">
+                      <li class="enrread lgcg">{{fontarr.tz[$store.state.lanfalg]}} <img :src="prise" alt="" :style="prisi">
                         <!-- <div class="tips volum">
                           <img src="../../../static/black-block.png" alt="">
                           The total transaction value over the last 24h
@@ -823,7 +823,7 @@ enabled:false //用来设置是否显示‘打印’,'导出'等功能按钮，�
     margin-top: -1px;
 }
 .exmdl .mdl_top{
-    width: 95px;
+    width: 114px;
     height: 25px;
     padding: 0 10px 0 10px;
     border-bottom: 2px solid #000;

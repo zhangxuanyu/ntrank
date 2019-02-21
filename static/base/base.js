@@ -1,5 +1,6 @@
 import axios from 'axios';
 window.baseurl = 'http://service.tokenrank.net'
+// window.baseurl = 'http://172.18.255.179:7888'
 class basefn{
     //数据
     constructor() {
@@ -66,18 +67,40 @@ class basefn{
         },500)
     }
     //数字字符串添加逗号
-    conversion(aa){
-        if(typeof(aa)=='string'){
-            var str = aa
-        }else{
-            var str = aa.toString()
+    // conversion(aa){
+    //     console.log(aa)
+    //     let str;
+    //     if(typeof(aa)=='string'){
+    //         str = aa
+    //     }else if(!aa){
+    //         str = '--'
+    //     }else{
+    //         str = aa.toString()
+    //     }
+    //     if(/\./.test(str)){
+    //         return str.replace(/\d(?=(\d{3})+\.)/g, "$&,").replace(/\d{3}(?![,.]|$)/g, "$&,");
+    //     }else{
+    //         return str.replace(/\d(?=(\d{3})+$)/g, "$&,");
+    //     }
+    // }
+        conversion(aa) {
+            let str;
+            let arr;
+            if (!aa) {
+              str = '--'
+            } else {
+              arr = aa.toString().split('.');
+              let integer = arr[0].replace(/\d(?=(\d{3})+$)/g, "$&,");
+
+              if (arr.length > 1) {
+                str = integer + "." + arr[1]
+
+              } else {
+                str = integer
+              }
+            }
+            return str;
         }
-        if(/\./.test(str)){
-            return str.replace(/\d(?=(\d{3})+\.)/g, "$&,").replace(/\d{3}(?![,.]|$)/g, "$&,");
-        }else{
-            return str.replace(/\d(?=(\d{3})+$)/g, "$&,");
-        }
-    }
     //获取页面传值
     getid(){
         let href = window.location.href;

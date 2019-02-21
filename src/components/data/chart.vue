@@ -1,11 +1,11 @@
 <template>
     <div class="rank_box">
         <p class="alltitle">
-            <span class="title_tips">{{top_title[showType].title[$store.state.lanfalg-1]}}</span>          
+            <span class="title_tips">{{top_title[showType].title[lanfalg]}}</span>          
         </p>
         <!-- <div :id="'mychart'+showType" class="formychart"></div> -->
         <div class="formychart">
-            {{content_chart[$store.state.lanfalg-1]}}
+            {{content_chart[lanfalg]}}
         </div>
     </div>
 </template>
@@ -13,6 +13,7 @@
 <script>
 import newfn from '../../../static/base/base.js'
 import Highcharts from 'highcharts/highstock';
+import {mapState} from 'Vuex'
 export default {
     data(){
         return{
@@ -308,32 +309,36 @@ export default {
             return this.chartarr[type]
             
         }
-    }
+    },
+    
+    computed:mapState(['lanfalg'])
 
 }
 </script>
 
 <style scoped lang="scss">
 .rank_box{
-    padding: 0 20px 20px 20px;
+        min-height: 360px;
+    padding: 0 20px 0 20px;
     background-color: #fff;
-    margin: 0 10px;
     border-radius: 5px;
     .alltitle{
         height: 55px;
         line-height: 55px;
         margin-bottom: 20px;
         .title_tips{
+            font-weight: 600;
             float: left;
-            font-size: 16px;
+            font-size: 14px;
             color: $basecolor;
         }
         
     }
     .formychart{
         width: 100%;
-        height: 300px;
-        line-height: 300px;
+        height: 288px;
+        line-height: 288px;
+        color: #999
     }
     
 }

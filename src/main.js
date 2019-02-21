@@ -6,14 +6,17 @@ import { Button, Select ,Option,Pagination} from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import App from './App'
 import router from './router'
-
+import axios from 'axios'
+import VueCalendarHeatmap from 'vue-calendar-heatmap'
 Vue.use(Pagination)
 Vue.use(Button)
 Vue.use(Select)
 Vue.use(Option)
 Vue.config.productionTip = false
-
+Vue.use(VueCalendarHeatmap)
 /* eslint-disable no-new */
+Vue.prototype.$ajax = axios;
+Vue.prototype.host = "http://service.tokenrank.net";
 new Vue({
   el: '#app',
   router,

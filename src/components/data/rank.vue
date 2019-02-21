@@ -1,36 +1,38 @@
 <template>
     <div class="rank_box">
         <p class="alltitle">
-            <span class="title_tips">{{top_title[showType].title[$store.state.lanfalg-1]}}</span>  
+            <span class="title_tips">{{top_title[showType].title[$store.state.lanfalg]}}</span>  
+            
             <span class="title_type">
-                <span v-if="top_title[showType].select.length >= 1" v-for="(item,index) in top_title[showType].select">
-                    <span class="cur" :style="index == selected?{color:'#a376d4'}:{}" @click="change_select(index)">{{item[$store.state.lanfalg-1]}}</span>
+                <span v-if="top_title[showType].select.length >= 1" v-for="(item,index) in top_title[showType].select" :key="index">
+                    <span class="cur" :style="index == selected?{color:'#a376d4'}:{}" @click="change_select(index)">{{item[$store.state.lanfalg]}}</span>
                     <span v-if="index != top_title[showType].select.length - 1" class="gap">|</span>
                 </span>
             </span>
             
         </p>
+        <p class="title_line"></p>
         <table  width="100%" cellspacing='0' style="text-align: center;">
             <!-- 有分类 -->
-                <tr class="top" v-if="top_title[showType].select">
-                    <th  v-for="(item,index) in titlearr[showType]" class="title all" v-if="index != titlearr[showType].length - 1" :style="index == titlearr[showType].length - 2?{textAlign:'right'}:{}">{{item[$store.state.lanfalg-1]}}</th>
-                    <th  v-for="(item,index) in titlearr[showType]" class="title all" v-if="index == titlearr[showType].length - 1" style="text-align:right">{{item[selected][$store.state.lanfalg-1]}}</th>
+                <tr class="top title_cls" v-if="top_title[showType].select">
+                    <th  v-for="(item,index) in titlearr[showType]" class="title all" :key="index" v-if="index != titlearr[showType].length - 1" :style="index == titlearr[showType].length - 2?{textAlign:'right'}:{}">{{item[$store.state.lanfalg]}}</th>
+                    <th  v-for="(item,index) in titlearr[showType]" class="title all" :key="index" v-if="index == titlearr[showType].length - 1" style="text-align:right">{{item[selected][$store.state.lanfalg]}}</th>
                 </tr>
             <!-- 无分类 -->
-                <tr class="top" v-else>
-                    <th  v-for="(item,index) in titlearr[showType]" class="title all" :style="index == titlearr[showType].length - 1?{textAlign:'right'}:{}">{{item[$store.state.lanfalg-1]}}</th>
+                <tr class="top title_cls" v-else>
+                    <th  v-for="(item,index) in titlearr[showType]" :key="index" class="title all" :style="index == titlearr[showType].length - 1?{textAlign:'right'}:{}">{{item[$store.state.lanfalg]}}</th>
                 </tr>
                 <!-- 有分类 -->
-                <tr class="top pd" v-for="(item,index) in arr" v-if="showType == 0">
+                <tr class="top pd" v-for="(item,index) in arr" :key="index" v-if="showType == 0">
                     <td class="title all" :style="index == arr.length -1 ?{border:'none'}:''">{{index+1}}</td>
-                    <td class="title all cur" style="textAlign:left;padding-left: 10%;" @click="gotodetail(item.code)">{{item.code}}</td>
-                    <td class="title all" style="textAlign:right">{{$store.state.currency==2?(item.price_usd*$store.state.usd_cny).toFixed(6):item.price_usd.toFixed(6)}}</td>
-                    <td class="title all" :style="item.change_quantity >= 0 ?{border:'none',textAlign:'right',color:'#2f9e84'}:{textAlign:'right',color:'#fd2e40'}">{{item.change_quantity.toFixed(2)}}%</td>
+                    <td class="title all cur" style="textAlign:left;padding-left: 10%;" @click="gotodetail(item.code)">{{item.short_name}}</td>
+                    <td class="title all" style="textAlign:right">{{item.price_usd?(item.price_usd>1?(item.price_usd*usd_cny[lanfalg]).toFixed(2):(item.price_usd*usd_cny[lanfalg]).toFixed(6)):'--'}}</td>
+                    <td class="title all" :style="item.change_quantity >= 0 ?{border:'none',textAlign:'right',color:'#2f9e84'}:{textAlign:'right',color:'#fd2e40'}">{{isNaN(item.change_quantity)?'--':(100*item.change_quantity).toFixed(2)+'%'}}</td>
                 </tr>
-                <tr class="top pd" v-for="(item,index) in arr" v-if="showType == 1">
+                <tr class="top pd" v-for="(item,index) in arr" :key="index" v-if="showType == 1">
                     <td class="title all" :style="index == arr.length -1 ?{border:'none'}:''">{{index+1}}</td>
-                    <td class="title all cur" style="textAlign:left;padding-left: 10%;" @click="gotodetail(item.code)">{{item.short_name}}-{{item.code}}</td>
-                    <td class="title all" style="textAlign:right">{{$store.state.currency==2?(item.volume_usd*$store.state.usd_cny).toFixed(0):item.volume_usd.toFixed(0)}}</td>
+                    <td class="title all cur" style="textAlign:left;padding-left: 10%;" @click="gotodetail(item.code)" v-if="item['name_list']">{{item.short_name+"-"+item['name_list'][$store.state.lanfalg]}}</td>
+                    <td class="title all" style="textAlign:right"  v-if="!isNaN(item.volume_usd)">{{addgap((item.volume_usd*usd_cny[lanfalg]).toFixed(0))}}</td>
                 </tr>
         </table>
     </div>
@@ -38,18 +40,19 @@
 
 <script>
 import newfn from '../../../static/base/base.js'
+import {mapState} from 'Vuex'
 export default {
     data(){
         return{
             top_title:[{
-                title:['涨跌幅','applies'],
-                select:[['涨幅榜','increase rank'],['跌幅榜','reduce rank']]
+                title:['涨跌幅(24H)','Change(24H)'],
+                select:[['涨幅榜','Increase'],['跌幅榜','Decline']]
             },{
                 title:['交易量(24H)','Volume(24H)']
             }],
             titlearr:[
-                [['排名','rank'],['名称','name'],['价格','price'],[['涨幅','increase'],['跌幅','reduce']]],
-                [['排名','rank'],['名称','name'],['交易量','volume']]
+                [['#','#'],['名称','Name'],['价格/￥','Price/$'],[['涨幅','Increase'],['跌幅','Reduce']]],
+                [['#','#'],['名称','Name'],['交易量/￥','Volume/$']]
             ],
             arr:[11111,'namedd','5413165131'],
             subarr:[],
@@ -92,15 +95,23 @@ export default {
                     this.requestdata[0].sort_type = 1
                 }
                 newfn.fornew('get','/tokenrank/V2/tokenTrade.json',{params:this.requestdata[this.showType]}).then((data)=>{
-                        console.log(data)
-                        this.arr = data.data.data
+                    let list =  data.data.data;
+                    list.forEach(element => {
+                        element['name_list']=[element.name,element.en_name];
+                    });
+                     this.arr = list; 
+                     console.log(list)
                 })
             }
+        },
+        addgap(aa){
+            return newfn.conversion(aa)
         },
         gotodetail(aa){
             this.$router.push({path:'/coindetail?id='+aa});
         },
-    }
+    },
+    computed:mapState(['usd_cny','lanfalg'])
 
 }
 </script>
@@ -116,22 +127,21 @@ table td{
     } 
 th{
     font-weight: 400;
+    color: #999;
 }
 .rank_box{
-    min-height: 396px;
-    padding: 0 20px 20px 20px;
+    min-height: 360px;
+    padding: 0 20px 10px 20px;
     background-color: #fff;
-    margin: 0 10px;
     border-radius: 5px;
     .alltitle{
-        height: 55px;
-        line-height: 55px;
-        border-bottom: 1px solid #f0edf3;
-        margin-bottom: 15px;
+        height: 54px;
+        line-height: 54px;
         .title_tips{
             float: left;
-            font-size: 16px;
+            font-size: 14px;
             color: $basecolor;
+            font-weight: 600;
         }
         .title_type{
             float: right;
@@ -143,19 +153,30 @@ th{
             }
         }
     }
+        .title_line{
+            height: 1px;
+            width: 100%;
+            background: #f2f2f2;
+            margin-bottom: 10px;
+        }
     
 }
 .title{
-    line-height: 32px;
+    line-height: 30px;
     font-size: 14px;
 }
 .top .title:nth-of-type(1){
     width: 35px;
-    text-align: left;
+    text-align: center;
     padding-right: 5px;
 }
 .pd .all:nth-of-type(1){
     color: #999;
 }
+.title_cls th:nth-of-type(2){
+    padding-left: 10%;
+    text-align: left
+}
+
 </style>
 
